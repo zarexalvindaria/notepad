@@ -1,7 +1,7 @@
 # Notepad
 # icon http://www.doublejdesign.co.uk
 import tkinter as tk
-from tkinter import StringVar, IntVar, scrolledtext
+from tkinter import StringVar, IntVar, scrolledtext, END, messagebox
 from PIL import ImageTk, Image
 
 # Define window
@@ -28,6 +28,21 @@ def change_font(event):
     # Change the font style
     input_text.config(font=my_font)
 
+def new_note():
+    """Creates a new Note which essentially clears the screen"""
+    # Use a messagebox to ask for a new note
+    question = messagebox.askyesno("New Note", "Are you sure you want to start a new note")
+    if question == 1:
+        # ScrolledText widgets starting index is 1. not 0
+        input_text.delete(1.0, END)
+
+def close_note():
+    """Closes the note which essentially quits the program"""
+    # Use a messagebox to ask to close
+    question = messagebox.askyesno("Close Note", "Are you sure you want to close your note?")
+    if question == 1:
+        root.destroy()
+
 
 # Define the layout
 # Create frames
@@ -39,7 +54,7 @@ text_frame.pack(padx=5, pady=5)
 # Layout for menu frame
 # Create the menu: new, open, save, close, font family, font size, font option
 new_image = ImageTk.PhotoImage(Image.open("img/new.png"))
-new_button = tk.Button(menu_frame, image=new_image)
+new_button = tk.Button(menu_frame, image=new_image, command=new_note)
 new_button.grid(row=0, column=0, padx=5, pady=5)
 
 open_image = ImageTk.PhotoImage(Image.open("img/open.png"))
@@ -51,7 +66,7 @@ save_button = tk.Button(menu_frame, image=save_image)
 save_button.grid(row=0, column=2, padx=5, pady=5)
 
 close_image = ImageTk.PhotoImage(Image.open("img/close.png"))
-close_button = tk.Button(menu_frame, image=close_image, command=root.destroy)
+close_button = tk.Button(menu_frame, image=close_image, command=close_note)
 close_button.grid(row=0, column=3, padx=5, pady=5)
 
 # Create a list of fonts to use
