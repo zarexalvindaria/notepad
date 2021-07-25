@@ -1,7 +1,7 @@
 # Notepad
 # icon http://www.doublejdesign.co.uk
 import tkinter as tk
-from tkinter import StringVar, IntVar
+from tkinter import StringVar, IntVar, scrolledtext
 from PIL import ImageTk, Image
 
 # Define window
@@ -16,6 +16,18 @@ text_color = "#fffacd"
 menu_color = "#dbd9db"
 root_color = "#6c809a"
 root.config(bg=root_color)
+
+# Define functions
+def change_font(event):
+    """change the given font based off dropbox options"""
+    if font_option.get() == "none":
+        my_font = (font_family.get(), font_size.get())
+    else:
+        my_font = (font_family.get(), font_size.get(), font_option.get())
+
+    # Change the font style
+    input_text.config(font=my_font)
+
 
 # Define the layout
 # Create frames
@@ -45,7 +57,7 @@ close_button.grid(row=0, column=3, padx=5, pady=5)
 # Create a list of fonts to use
 families = ["Terminal", "Modern", "Script", "Courier", "Arial", "Calibri", "Cambria", "Georgia", "MS Gothic", "SimSun", "Tahoma", "Times New Roman", "Verdana", "Wingdings"]
 font_family = StringVar()
-font_family_drop = tk.OptionMenu(menu_frame, font_family, *families)
+font_family_drop = tk.OptionMenu(menu_frame, font_family, *families, command=change_font)
 font_family.set("Terminal")
 # Set the width so it will fit "Times New Roman" and remain constant
 font_family_drop.config(width=16)
@@ -53,7 +65,7 @@ font_family_drop.grid(row=0, column=4, padx=5, pady=5)
 
 sizes = [8, 10, 12, 14, 16, 20, 24, 32, 48, 64, 72, 96]
 font_size = IntVar()
-font_size_drop = tk.OptionMenu(menu_frame, font_size, *sizes)
+font_size_drop = tk.OptionMenu(menu_frame, font_size, *sizes, command=change_font)
 font_size.set(12)
 # Set the font widget width so it will remain constant
 font_size_drop.config(width=2)
@@ -61,11 +73,19 @@ font_size_drop.grid(row=0, column=5, padx=5, pady=5)
 
 options = ["none", "bold", "italic"]
 font_option = StringVar()
-option_drop = tk.OptionMenu(menu_frame, font_option, *options)
+font_option_drop = tk.OptionMenu(menu_frame, font_option, *options, command=change_font)
 font_option.set("none")
 # Set the width to be constant
-option_drop.config(width=5)
-option_drop.grid(row=0, column=6, padx=5, pady=5)
+font_option_drop.config(width=5)
+font_option_drop.grid(row=0, column=6, padx=5, pady=5)
+
+# Layout for the text frame
+my_font = (font_family.get(), font_size.get())
+
+# Create the input_text as a scrolltext so you can scroll through the text field
+# Set the default width and height to be more than the window size so that on the smallest size, the text field size is constant
+input_text = tk.scrolledtext.ScrolledText(text_frame, width="1000", height="100",  bg=text_color, font=my_font)
+input_text.pack()
 
 # Run the root window's main loop
 root.mainloop()
