@@ -15,5 +15,13 @@ menu_color = "#dbd9db"
 root_color = "#6c809a"
 root.config(bg=root_color)
 
+# Define the layout
+# Create frames
+menu_frame = tk.Frame(root, bg=menu_color)
+text_frame = tk.Frame(root, bg=text_color)
+menu_frame.pack(padx=5, pady=5)
+text_frame.pack(padx=5, pady=5)
+
+
 # Run the root window's main loop
 root.mainloop()
