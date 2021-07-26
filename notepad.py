@@ -56,6 +56,26 @@ def save_note():
         # Write remaining text
         f.write(input_text.get("1.0", END))
 
+def open_note():
+    """Open a previously saved note. First three lines of notes are font family, fomt size and font option.
+    First set the font then load the text"""
+    # Use filedialog to get location and directory of note file
+    open_name = filedialog.askopenfilename(initialdir="./", title="Open Note", filetypes=(("Text Files", "*.txt"), ("All Files", "*.*")))
+    with open(open_name, "r") as f:
+        # Clear the current text
+        input_text.delete("1.0", END)
+
+        # First three lines are font_family, font_size and font_option. Strip the naew line at the end of each line
+        font_family.set(f.readline().strip())
+        font_size.set(int(f.readline().strip()))
+        font_option.set(f.readline().strip())
+
+        # Call the change font for these .set() and pass an arbitrary value
+        change_font(1)
+
+        # Read the rest of the file and insert into the text field
+        text = f.read()
+        input_text.insert("1.0", text)
 
 # Define the layout
 # Create frames
@@ -71,7 +91,7 @@ new_button = tk.Button(menu_frame, image=new_image, command=new_note)
 new_button.grid(row=0, column=0, padx=5, pady=5)
 
 open_image = ImageTk.PhotoImage(Image.open("img/open.png"))
-open_button = tk.Button(menu_frame, image=open_image)
+open_button = tk.Button(menu_frame, image=open_image, command=open_note)
 open_button.grid(row=0, column=1, padx=5, pady=5)
 
 save_image = ImageTk.PhotoImage(Image.open("img/save.png"))
