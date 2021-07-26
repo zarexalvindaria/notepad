@@ -111,7 +111,7 @@ close_button = tk.Button(menu_frame, image=close_image, command=close_note)
 close_button.grid(row=0, column=3, padx=5, pady=5)
 
 # Create a list of fonts to use
-families = ["Terminal", "Modern", "Script", "Courier", "Arial", "Calibri", "Cambria", "Georgia", "MS Gothic", "SimSun",
+families = ["Terminal", "Modern", "Inter", "Script", "Courier", "Arial", "Calibri", "Cambria", "Georgia", "MS Gothic", "SimSun",
             "Tahoma", "Times New Roman", "Verdana", "Wingdings"]
 font_family = StringVar()
 font_family_drop = tk.OptionMenu(menu_frame, font_family, *families, command=change_font)
