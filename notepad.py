@@ -1,7 +1,7 @@
 # Notepad
 # icon http://www.doublejdesign.co.uk
 import tkinter as tk
-from tkinter import StringVar, IntVar, scrolledtext, END, messagebox
+from tkinter import StringVar, IntVar, scrolledtext, END, messagebox, filedialog
 from PIL import ImageTk, Image
 
 # Define window
@@ -34,7 +34,7 @@ def new_note():
     question = messagebox.askyesno("New Note", "Are you sure you want to start a new note")
     if question == 1:
         # ScrolledText widgets starting index is 1. not 0
-        input_text.delete(1.0, END)
+        input_text.delete("1.0", END)
 
 def close_note():
     """Closes the note which essentially quits the program"""
@@ -42,6 +42,19 @@ def close_note():
     question = messagebox.askyesno("Close Note", "Are you sure you want to close your note?")
     if question == 1:
         root.destroy()
+
+def save_note():
+    """"Save the given note. First threel ines are saved as font family, font size, and font option."""
+    # Use filedialog to get location and name of where/what to save the file as.
+    save_name = filedialog.asksaveasfilename(initialdir="./", title="Save Note", filetypes=(("Text Files", "*.txt"), ("All Files", "*.*")))
+    with open(save_name, 'w') as f:
+        # First three lines of save file are font_family, font_size, and font_options. Font size must be a string not int.
+        f.write(font_family.get() + "\n")
+        f.write(str(font_size.get()) + "\n")
+        f.write(font_option.get() + "\n")
+
+        # Write remaining text
+        f.write(input_text.get("1.0", END))
 
 
 # Define the layout
@@ -62,7 +75,7 @@ open_button = tk.Button(menu_frame, image=open_image)
 open_button.grid(row=0, column=1, padx=5, pady=5)
 
 save_image = ImageTk.PhotoImage(Image.open("img/save.png"))
-save_button = tk.Button(menu_frame, image=save_image)
+save_button = tk.Button(menu_frame, image=save_image, command=save_note)
 save_button.grid(row=0, column=2, padx=5, pady=5)
 
 close_image = ImageTk.PhotoImage(Image.open("img/close.png"))
